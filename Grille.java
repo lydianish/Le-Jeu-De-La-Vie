@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Grille {
 	
 	public Grille(int l, int c) throws IllegalArgumentException{
@@ -8,13 +10,11 @@ public class Grille {
 		
 	}
 	
-	public  void ajouteCellule(int i, int j) throws IllegalArgumentException{
-		verifieIndices(i,j);
+	public  void ajouteCellule(int i, int j){
 		grille[i][j] = true;	
 	}
 	
-	public  void supprimeCellule(int i, int j) throws IllegalArgumentException{
-		verifieIndices(i,j);
+	public  void supprimeCellule(int i, int j){
 		grille[i][j] = false;	
 	}
 	
@@ -91,8 +91,29 @@ public class Grille {
 	}
 
 
-	private int nblig;
-	private int nbcol;
+	public void affiche(Graphics g, int hauteur, int largeur){
+		int hc = hauteur/nblig; //hauteur cellule
+		int lc = largeur/nbcol; //largeur cellule
+
+		for(int i=0; i<nblig;i++){
+			for (int j=0; j<nbcol;j++){
+				if (estOccupee(i,j)) {
+					g.fillOval(j * hc, i * lc, lc, hc);
+				}
+				else {
+					g.clearRect(j * hc, i * lc, lc, hc);
+				}
+			}
+		}
+	}
+
+	public void clear(){
+		grille = new boolean[nblig][nbcol];
+	}
+
+
+	protected int nblig;
+	protected int nbcol;
 	private  boolean[][] grille;
 
 	private void verifieIndices(int i, int j) throws IllegalArgumentException{
